@@ -15,6 +15,12 @@ stdio.h
 -
 string.h
 -
+unistd.h
+-
+pthread.h
+-
+sys/wait.h
+-
 stringlist.c
 C:/Users/JamesBurling/Documents/GitHub/OS1-Coursework/stringlist.c
 
