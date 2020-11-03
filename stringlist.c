@@ -8,19 +8,11 @@ typedef struct StringListStruct{
     int** pointerArray;
 }StringList;
 
-void setupList(StringList* list){
-    list->pointerArray = (int**) malloc(sizeof(int*));
-    list->length = 1;
-}
-
 
 void addString(StringList* list, char* string){
     list->length += 1;
-    list->pointerArray = (int**) realloc(&list, sizeof(int *) * list->length);
+    list->pointerArray = realloc(list->pointerArray, sizeof(int *) * list->length);
 
     list->pointerArray[list->length-1] = &string;
 }
 
-char* getString(StringList* list, int index){
-    return list->pointerArray[index];
-}

@@ -4,17 +4,16 @@
 #include <string.h>
 //#include <unistd.h>
 //#include <pthread.h>
-//#include "stringlist.c"
+#include "stringlist.c"
 
 #define TRUE 1
 #define FALSE 0
 /*
 int main(){
     StringList newList;
-    setupList(&newList);
-    char* s = (char*)malloc(sizeof(char)*2);
-    addString(&newList, s);
-    printf("%s", getString(&newList, 0));
+
+    addString(&newList, "hello");
+
 
     return 1;
 }
@@ -26,7 +25,7 @@ char* get_input(){
 
     printf("> ");
     fgets(string_input, 256, stdin);
-
+    string_input = strtok(string_input, "\n");
     return string_input;
 }
 
@@ -46,22 +45,23 @@ int main() {
     int length;
     while (temp != NULL) { // While words in user input
 
-        /* COPY WORD INTO ROW */
+        // COPY WORD INTO ROW
         length = strlen(temp);
-        printf("Length: %d\n", length);
+
         *(p + (rowCount - 1)) = (char *) malloc(sizeof(char) * length);
         strcpy(*(p + (rowCount - 1)), temp);
 
-        printf("%s\n", *(p + (rowCount - 1)));
-        /* CREATE NEW ROW */
+
+        // CREATE NEW ROW
         p = (int **) realloc(p, sizeof(int *) * ++rowCount);
+
         temp = strtok(NULL, " ");
     }
 
     printf("ALL STORED\n");
-    /* Print out array of word */
-    for (int i = 0; i < rowCount; i++) {
-        printf("%s\n", *(p + i));
+    // Print out array of word
+    for (int i = 0; i < rowCount-1; i++) {
+        printf("> %s\n", *(p + i));
     }
     return EXIT_SUCCESS;
 }
