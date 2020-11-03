@@ -1,0 +1,3 @@
+C:/Users/JamesBurling/Documents/GitHub/OS1-Coursework/cmake-build-debug/CMakeFiles/OS1_Coursework.dir
+C:/Users/JamesBurling/Documents/GitHub/OS1-Coursework/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/JamesBurling/Documents/GitHub/OS1-Coursework/cmake-build-debug/CMakeFiles/rebuild_cache.dir
