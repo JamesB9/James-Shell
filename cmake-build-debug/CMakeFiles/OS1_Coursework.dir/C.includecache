@@ -19,12 +19,12 @@ stdio.h
 -
 string.h
 -
-stringlist.c
-C:/Users/JamesBurling/Documents/GitHub/OS1-Coursework/stringlist.c
+unistd.h
+-
+pthread.h
+-
+sys/wait.h
+-
 commands.c
 C:/Users/JamesBurling/Documents/GitHub/OS1-Coursework/commands.c
-
-C:/Users/JamesBurling/Documents/GitHub/OS1-Coursework/stringlist.c
-stdlib.h
--
 

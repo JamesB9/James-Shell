@@ -3,11 +3,14 @@
 //
 
 #include <stdlib.h>
+#define TRUE 1
+#define FALSE 0
 
 const char* unixCommandPath = "/bin/";
 
 typedef struct CommandStruct{
     char** arguments;
+    char* commandName;
     int length;
 }Command;
 
@@ -18,9 +21,12 @@ char* getArg(Command* command, int index);
 void addArg(Command* command, char* string);
 void outputArguments(Command* command);
 
-
 char* getCommandPath(Command* command){
     return getArg(command,0);
+}
+
+void changeDirectory(char* directory){
+
 }
 
 int runCommand(Command* command){
@@ -28,18 +34,25 @@ int runCommand(Command* command){
 
     if (pid == 0)
     {
-        execv(getCommandPath(command), command->arguments);
+        if(strcmp(command->commandName, "cd") == 0){
+            char s[100];
+            chdir(getArg(command,1));
+        }else{
+            execv(getCommandPath(command), command->arguments);
+        }
     }
     else
     {
         int status;
         waitpid(pid, &status, 0);
     }
-    return 1;
+
+    return strcmp(command->commandName, "exit");
 }
 
 void initCommand(Command* command, char* commandName){
     command->length = 0;
+    command->commandName = commandName;
     command->arguments = (char**) malloc(0);
 
     // ADD COMMAND PATH
@@ -60,9 +73,11 @@ void addArg(Command* command, char* string){
     *(command->arguments + (command->length - 1)) = string;
 }
 
-void outputArguments(Command* command){
-    printf("List Output:\n");
+void outputCommand(Command* command){
+    printf("Command: %s\n", command->commandName);
+    printf("Arguments:\n");
     for(int i = 0; i < command->length; i++){
         printf("%d %s\n", i, getArg(command,i));
     }
+    printf("----------------\n");
 }

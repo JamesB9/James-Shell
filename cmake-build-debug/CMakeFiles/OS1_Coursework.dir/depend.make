@@ -3,5 +3,4 @@
 
 CMakeFiles\OS1_Coursework.dir\main.c.obj: ..\commands.c
 CMakeFiles\OS1_Coursework.dir\main.c.obj: ..\main.c
-CMakeFiles\OS1_Coursework.dir\main.c.obj: ..\stringlist.c
 
