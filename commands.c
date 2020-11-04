@@ -19,35 +19,33 @@ char* getCommandPath(Command* command);
 int runCommand(Command* command);
 char* getArg(Command* command, int index);
 void addArg(Command* command, char* string);
-void outputArguments(Command* command);
-
-char* getCommandPath(Command* command){
-    return getArg(command,0);
-}
-
-void changeDirectory(char* directory){
-
-}
+void outputCommand(Command* command);
 
 int runCommand(Command* command){
     pid_t pid = fork();
 
-    if (pid == 0)
-    {
+    if(pid < 0){
+        perror("Error Occurred: fork error");
+    }else if (pid == 0){
         if(strcmp(command->commandName, "cd") == 0){
-            char s[100];
             chdir(getArg(command,1));
-        }else{
-            execv(getCommandPath(command), command->arguments);
+        }else if(strcmp(command->commandName, "clear") == 0){
+            clrscr();
+        }else if(execv(getCommandPath(command), command->arguments) < 0){
+            perror("Error Occurred: execv error");
         }
-    }
-    else
-    {
+    }else{
         int status;
-        waitpid(pid, &status, 0);
+        if (waitpid(pid, &status, 0) < 0){
+            perror("Error Occurred: waitpid error");
+        }
     }
 
     return strcmp(command->commandName, "exit");
+}
+
+char* getCommandPath(Command* command){
+    return getArg(command,0);
 }
 
 void initCommand(Command* command, char* commandName){
@@ -63,14 +61,14 @@ void initCommand(Command* command, char* commandName){
     addArg(command, commandPath);
 }
 
-char* getArg(Command* command, int index){
-    return *(command->arguments + index);
-}
-
 void addArg(Command* command, char* string){
     command->length += 1;
     command->arguments = (char**) realloc(command->arguments, sizeof(char*) * command->length);
     *(command->arguments + (command->length - 1)) = string;
+}
+
+char* getArg(Command* command, int index){
+    return *(command->arguments + index);
 }
 
 void outputCommand(Command* command){
