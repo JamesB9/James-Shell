@@ -1,6 +1,7 @@
 //
 // Created by JamesBurling on 03/11/2020.
 //
+
 #include <stdlib.h>
 
 const char* unixCommandPath = "/bin/";
@@ -10,7 +11,9 @@ typedef struct CommandStruct{
     int length;
 }Command;
 
-Command* generateCommand(char* commandName, StringList* argumentList, char* currentDir);
+Command generateCommand(char* commandName, StringList* argumentList, char* currentDir);
+
+
 char* getCommandPath(Command* command);
 int runCommand(Command* command);
 void initCommand(Command* command);
@@ -18,25 +21,24 @@ char* getArg(Command* command, int index);
 void addArg(Command* command, char* string);
 void outputArguments(Command* command);
 
-Command* generateCommand(char* commandName, StringList* argumentList, char* currentDir){
-    printf("a");
-    Command* command;
-    initCommand(command);
-    printf("f");
+Command generateCommand(char* commandName, StringList* argumentList, char* currentDir){
+    Command command;
+    initCommand(&command);
+
     // ADD COMMAND PATH
     int length = strlen(unixCommandPath) + strlen(commandName);
     char* commandPath = (char*) malloc(length*sizeof(char));
     strcpy(commandPath,unixCommandPath);
     strcat(commandPath,commandName);
-    addArg(command, commandPath);
-    printf("g");
+    addArg(&command, commandPath);
+
     // ADD USER ARGUMENTS
     for(int i = 0; i< argumentList->length; i++){
-        addArg(command, getString(argumentList,i));
+        addArg(&command, getString(argumentList,i));
     }
-    printf("h");
+
     // ADD NULL
-    addArg(command, NULL);
+    addArg(&command, NULL);
 
     return command;
 }
