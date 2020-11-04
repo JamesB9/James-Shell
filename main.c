@@ -5,7 +5,6 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <sys/wait.h>
-#include "stringlist.c"
 #include "commands.c"
 
 #define TRUE 1
@@ -30,18 +29,19 @@ int main(){
         // Get user input
         char *userInput = get_input(currentDir);
         // Extract command, arguments from input
-        StringList args;
-        initStringList(&args);
+        //StringList args;
+        //initStringList(&args);
+        Command command;
 
         char *commandName = strtok(userInput, " ");
-        char *arg = strtok(NULL, " ");
+        initCommand(&command, commandName);
 
+        char *arg = strtok(NULL, " ");
         while (arg != NULL) { // While words in user input
-            addString(&args, arg);
+            addArg(&command, arg);
             arg = strtok(NULL, " ");
         }
-
-        Command command = generateCommand(commandName, &args, currentDir);
+        addArg(&command, NULL);
 
         if(strcmp(commandName, "exit") == 0){
             loop = FALSE;

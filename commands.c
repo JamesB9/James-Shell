@@ -11,37 +11,13 @@ typedef struct CommandStruct{
     int length;
 }Command;
 
-Command generateCommand(char* commandName, StringList* argumentList, char* currentDir);
-
-
+void initCommand(Command* command, char* commandName);
 char* getCommandPath(Command* command);
 int runCommand(Command* command);
-void initCommand(Command* command);
 char* getArg(Command* command, int index);
 void addArg(Command* command, char* string);
 void outputArguments(Command* command);
 
-Command generateCommand(char* commandName, StringList* argumentList, char* currentDir){
-    Command command;
-    initCommand(&command);
-
-    // ADD COMMAND PATH
-    int length = strlen(unixCommandPath) + strlen(commandName);
-    char* commandPath = (char*) malloc(length*sizeof(char));
-    strcpy(commandPath,unixCommandPath);
-    strcat(commandPath,commandName);
-    addArg(&command, commandPath);
-
-    // ADD USER ARGUMENTS
-    for(int i = 0; i< argumentList->length; i++){
-        addArg(&command, getString(argumentList,i));
-    }
-
-    // ADD NULL
-    addArg(&command, NULL);
-
-    return command;
-}
 
 char* getCommandPath(Command* command){
     return getArg(command,0);
@@ -62,9 +38,16 @@ int runCommand(Command* command){
     return 1;
 }
 
-void initCommand(Command* command){
+void initCommand(Command* command, char* commandName){
     command->length = 0;
     command->arguments = (char**) malloc(0);
+
+    // ADD COMMAND PATH
+    int length = strlen(unixCommandPath) + strlen(commandName);
+    char* commandPath = (char*) malloc(length*sizeof(char));
+    strcpy(commandPath,unixCommandPath);
+    strcat(commandPath,commandName);
+    addArg(command, commandPath);
 }
 
 char* getArg(Command* command, int index){
