@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+C:/Users/JamesBurling/Documents/GitHub/OS1-Coursework/commands.c
+stdlib.h
+-
+
 C:/Users/JamesBurling/Documents/GitHub/OS1-Coursework/main.c
 stdio.h
 -
@@ -15,14 +19,10 @@ stdio.h
 -
 string.h
 -
-unistd.h
--
-pthread.h
--
-sys/wait.h
--
 stringlist.c
 C:/Users/JamesBurling/Documents/GitHub/OS1-Coursework/stringlist.c
+commands.c
+C:/Users/JamesBurling/Documents/GitHub/OS1-Coursework/commands.c
 
 C:/Users/JamesBurling/Documents/GitHub/OS1-Coursework/stringlist.c
 stdlib.h

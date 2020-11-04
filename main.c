@@ -16,7 +16,9 @@ char* get_input(char* currentDir){
 
     printf("MyShell: %s > ", currentDir);
     fgets(string_input, 256, stdin);
+    printf("hi");
     string_input = strtok(string_input, "\n");
+    printf("hi2");
     return string_input;
 }
 
@@ -28,26 +30,27 @@ int main(){
 
     while(loop) {
         // Get user input
-        char *userInput = get_input(currentDir);
 
+        char *userInput = get_input(currentDir);
+        printf("hello3");
         // Extract command, arguments from input
         StringList args;
         initStringList(&args);
-
+        printf("hello2");
         char *commandName = strtok(userInput, " ");
         char *arg = strtok(NULL, " ");
-
+        printf("hello");
         while (arg != NULL) { // While words in user input
             addString(&args, arg);
             arg = strtok(NULL, " ");
         }
-
-        Command command = generateCommand(commandName, &args, currentDir);
+        printf("hello4");
+        Command* command = generateCommand(commandName, &args, currentDir);
         printf("%s", commandName);
         if(strcmp(commandName, "exit") == 0){
             loop = FALSE;
         }else {
-            runCommand(&command);
+            runCommand(command);
         }
     }
     //freeStringList(&args);
