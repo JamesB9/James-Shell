@@ -1,3 +1,10 @@
+/* MAIN.C
+ *
+ * Author: James Burling
+ *
+ *
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,7 +17,43 @@
 #define TRUE 1
 #define FALSE 0
 
-void write_header(){
+char* getInput();
+void writeHeader();
+
+/*
+ * Function: main
+ * ------------------------
+ * Contains the main loop. This asks the user for input, interprets the string to create a
+ * Command. Then the command is run.
+ *
+ * @return int of how the program exited.
+ */
+int main(){
+    writeHeader();
+
+    int loop = TRUE;
+    while(loop != 0) {
+        Command command;
+        initCommand(&command, getInput());
+
+        int test = runCommand(&command);
+        printf("LOOP: %d\n", test);
+        loop = test;
+        //loop = runCommand(&command);
+        freeCommand(&command);
+        printf("loop: %d\n", loop);
+    }
+    return EXIT_SUCCESS;
+}
+
+/*
+ * Function: writeHeader
+ * ------------------------
+ * Prints the header text (e.g. title, description and author) to the stdout
+ *
+ * @return void
+ */
+void writeHeader(){
     char asciiText[] = "\033[01;33m-------------------------------------------------------------------------------\n\033[1;36m"
                        "   __                              __ _          _ _ \n"
                        "   \\ \\  __ _ _ __ ___   ___  ___  / _\\ |__   ___| | |\n"
@@ -23,7 +66,15 @@ void write_header(){
     printf("\033[97m%s", asciiText);
 }
 
-char* get_input(){
+/*
+ * Function: getInput
+ * ------------------------
+ * Prints the current directory to stdout and prompts the user for input.
+ * Reads a string containing all user input for a single line from stdin.
+ *
+ * @return a pointer to a char array containing user input
+ */
+char* getInput(){
     char* string_input = (char*) malloc(256 * sizeof(char));
     char s[100];
 
@@ -32,31 +83,4 @@ char* get_input(){
     fgets(string_input, 256, stdin);
     string_input = strtok(string_input, "\n");
     return string_input;
-}
-
-
-int main(){
-    write_header();
-
-    int loop = TRUE;
-    while(loop) {
-        // Get user input
-        char *userInput = get_input();
-        // Extract command, arguments from input
-        Command command;
-        char *commandName = strtok(userInput, " ");
-
-        initCommand(&command, commandName);
-
-        char *arg = strtok(NULL, " ");
-        while (arg != NULL) { // While words in user input
-            addArg(&command, arg);
-            arg = strtok(NULL, " ");
-        }
-
-        addArg(&command, NULL);
-        loop = runCommand(&command);
-    }
-    //freeStringList(&args);
-    return EXIT_SUCCESS;
 }

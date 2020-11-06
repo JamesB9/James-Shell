@@ -82,6 +82,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/JamesBurling/Documents/GitHub/OS1-Coursework/commands.h">
+			<Option target="OS1_Coursework"/>
+		</Unit>
 		<Unit filename="C:/Users/JamesBurling/Documents/GitHub/OS1-Coursework/main.c">
 			<Option target="OS1_Coursework"/>
 		</Unit>
