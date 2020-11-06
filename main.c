@@ -7,15 +7,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <pthread.h>
-#include <sys/wait.h>
-#include "commands.c"
 
-#define TRUE 1
-#define FALSE 0
+#include "commands.h"
+
+#define LOOP_AGAIN 0
+#define MAX_CHARS_INPUT 255
 
 char* getInput();
 void writeHeader();
@@ -31,18 +29,14 @@ void writeHeader();
 int main(){
     writeHeader();
 
-    int loop = TRUE;
-    while(loop != 0) {
+    int loop = LOOP_AGAIN;
+    while(loop == LOOP_AGAIN) {
         Command command;
         initCommand(&command, getInput());
-
-        int test = runCommand(&command);
-        printf("LOOP: %d\n", test);
-        loop = test;
-        //loop = runCommand(&command);
+        loop = runCommand(&command);
         freeCommand(&command);
-        printf("loop: %d\n", loop);
     }
+
     return EXIT_SUCCESS;
 }
 
@@ -75,12 +69,12 @@ void writeHeader(){
  * @return a pointer to a char array containing user input
  */
 char* getInput(){
-    char* string_input = (char*) malloc(256 * sizeof(char));
-    char s[100];
+    char s[255];
+    printf("%s%s%s > %s","\033[01;33m", getcwd(s, 255),"\033[1;36m","\033[97m");
 
-    printf("%s%s%s > %s","\033[01;33m", getcwd(s, 100),"\033[1;36m","\033[97m");
+    // Allocates a char array of max characters 255 on the heap and gets the inputted line from stdin
+    char* string_input = (char*) malloc(MAX_CHARS_INPUT * sizeof(char));
+    fgets(string_input, MAX_CHARS_INPUT, stdin);
 
-    fgets(string_input, 256, stdin);
-    string_input = strtok(string_input, "\n");
-    return string_input;
+    return strtok(string_input, "\n");// Return the line input without \n that fgets adds.
 }
