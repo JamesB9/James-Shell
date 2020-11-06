@@ -1,6 +1,10 @@
-//
-// Created by JamesBurling on 03/11/2020.
-//
+/* COMMANDS.C
+ *
+ * Author: James Burling
+ * Date: 03/11/2020
+ * Last Modified: 06/11/2020
+ *
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,26 +28,26 @@
  * @return an int to decide whether the current process should break the main loop and exit, or keep looping.
  */
 int runCommand(Command* command) {
-
-    if (strcmp(command->commandName, "exit") == 0) {
+    if (strcmp(command->commandName, "exit") == 0) { // IF commandName == exit --> EXIT_LOOP
         return EXIT_LOOP;
-    } else if (strcmp(command->commandName, "cd") == 0){
-        chdir(getArg(command, 1));
+    } else if (strcmp(command->commandName, "cd") == 0){ // IF commandName == exit --> EXIT_LOOP
+        chdir(getArg(command, 1)); // System Call to change directory
         return LOOP_AGAIN;
     } else {
-        pid_t pid = fork();
+        pid_t pid = fork(); // Creates child process with pid=0
 
         if (pid < 0) {
             perror("fork error ");
             return EXIT_LOOP;
         } else if (pid == 0) {
-            if (execv(getCommandPath(command), command->arguments)) {
+            if (execv(getCommandPath(command), command->arguments)) { // Executes the command
+                printf("The command '%s' doesn't exist\n", command->commandName, stderr);
                 perror("execv error ");
                 return EXIT_LOOP;
             }
         } else {
             int status;
-            waitpid(pid, &status, 0);
+            waitpid(pid, &status, 0); // Parent process waits here until child process has finished
             return LOOP_AGAIN;
         }
     }
@@ -60,25 +64,27 @@ int runCommand(Command* command) {
  * @return void
  */
 void initCommand(Command* command, char* commandString){
+    // Initialises all command's variables.
     command->length = 0;
-    command->commandName = strtok(commandString, " ");
+    command->commandName = strtok(commandString, " "); // extract first word in commandString
     command->arguments = (char**) malloc(0);
 
-    // ADD COMMAND PATH
+    // Creates the file path to the commands executable.
     const char unixCommandPath[] = "/bin/";
     int length = strlen(unixCommandPath) + strlen(command->commandName);
     char* commandPath = (char*) malloc(length*sizeof(char));
+
     strcpy(commandPath,unixCommandPath);
     strcat(commandPath,command->commandName);
-    addArg(command, commandPath);
+    addArg(command, commandPath); // Sets first argument in array to be the commandPath
 
-    // ADD ALL ARGUMENTS TO LIST, NULL AT END
+    // Extracts and appends all the arguments from commandString
     char *arg;
     while(arg != NULL){
         arg = strtok(NULL, " ");
         addArg(command, arg);
     }while(arg != NULL);
-    free(arg);
+    free(arg); // Free the memory on the heap allocated for holding temporary argument strings.
 }
 
 /*
@@ -99,6 +105,7 @@ char* getCommandPath(Command* command){
  * Function: getArg
  * ------------------------
  * An accessor method for accessing the arguments stored in a Command struct
+ * Implemented via pointer arithmetic.
  *
  * @param command - pointer to a command struct
  * @param index   - integer to decide which argument in the arguments array to return.
@@ -113,6 +120,7 @@ char* getArg(Command* command, int index){
  * Function: addArg
  * ------------------------
  * Stores a copy of the provided argument in the provided Command structs' array of arguments
+ * The realloc function is used followed by pointer arithmetic to add the new argument to the end of the array
  *
  * @param command - pointer to a command struct
  * @param arg  - a pointer to a char array containing a command line input from the user. e.g. "-la"
@@ -120,7 +128,9 @@ char* getArg(Command* command, int index){
  * @return void
  */
 void addArg(Command* command, char* arg){
+    // Re-allocates the arguments array so that its length is incremented by one.
     command->arguments = (char**) realloc(command->arguments, sizeof(char*) * ++command->length);
+    // sets the value of the last element in the arguments array equal to arg.
     *(command->arguments + (command->length - 1)) = arg;
 }
 

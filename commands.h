@@ -1,7 +1,10 @@
-//
-// Created by JamesBurling on 06/11/2020.
-//
-
+/* COMMANDS.H
+ *
+ * Author: James Burling
+ * Date Created : 03/11/2020
+ * Last Modified: 06/11/2020
+ *
+ */
 #ifndef OS1_COURSEWORK_COMMANDS_H
 #define OS1_COURSEWORK_COMMANDS_H
 

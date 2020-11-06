@@ -1,7 +1,8 @@
 /* MAIN.C
  *
  * Author: James Burling
- *
+ * Date: 03/11/2020
+ * Last Modified: 06/11/2020
  *
  */
 
@@ -63,12 +64,13 @@ void writeHeader(){
 /*
  * Function: getInput
  * ------------------------
- * Prints the current directory to stdout and prompts the user for input.
+ * Prints the current working directory to stdout and prompts the user for input.
  * Reads a string containing all user input for a single line from stdin.
  *
  * @return a pointer to a char array containing user input
  */
 char* getInput(){
+    // Prints a prompt to the screen containing the current working directory
     char s[255];
     printf("%s%s%s > %s","\033[01;33m", getcwd(s, 255),"\033[1;36m","\033[97m");
 
