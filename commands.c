@@ -22,6 +22,7 @@
  * ------------------------
  * Checks for certain special commands otherwise it executes the command in the Command struct via a child process.
  * Decides whether to exit or maintain the main program loop
+ * Performs error checking to ensure the shell operates even when incorrect values are input
  *
  * @param command       - pointer to a command struct
  *
@@ -31,7 +32,10 @@ int runCommand(Command* command) {
     if (strcmp(command->commandName, "exit") == 0) { // IF commandName == exit --> EXIT_LOOP
         return EXIT_LOOP;
     } else if (strcmp(command->commandName, "cd") == 0){ // IF commandName == exit --> EXIT_LOOP
-        chdir(getArg(command, 1)); // System Call to change directory
+        if(chdir(getArg(command, 1))==-1){
+            printf("The file or directory '%s' doesn't exist\n", getArg(command, 1), stderr);
+            perror("chdir error ");
+        }; // System Call to change directory
         return LOOP_AGAIN;
     } else {
         pid_t pid = fork(); // Creates child process with pid=0
