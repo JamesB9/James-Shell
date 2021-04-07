@@ -1,6 +1,6 @@
 /* MAIN.C
  *
- * Author: James Burling
+ * Author: James
  * Date: 03/11/2020
  * Last Modified: 06/11/2020
  *
@@ -55,8 +55,8 @@ void writeHeader(){
                        "    \\ \\/ _` | '_ ` _ \\ / _ \\/ __| \\ \\| '_ \\ / _ \\ | |\n"
                        " /\\_/ / (_| | | | | | |  __/\\__ \\ _\\ \\ | | |  __/ | |\n"
                        " \\___/ \\__,_|_| |_| |_|\\___||___/ \\__/_| |_|\\___|_|_|\n\n"
-                       "\033[01;33mDescription:\033[1;36m A simple Linux shell for OS1 Coursework\n"
-                       "\033[01;33mAuthor:      \033[1;36mJames Burling\n"
+                       "\033[01;33mDescription:\033[1;36m A simple Linux shell\n"
+                       "\033[01;33mAuthor:      \033[1;36mJames\n"
                        "\033[01;33m-------------------------------------------------------------------------------\n\n";
     printf("\033[97m%s", asciiText);
 }

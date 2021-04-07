@@ -1,6 +1,6 @@
 /* COMMANDS.H
  *
- * Author: James Burling
+ * Author: James
  * Date Created : 03/11/2020
  * Last Modified: 06/11/2020
  *
